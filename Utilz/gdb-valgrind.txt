@@ -1,0 +1,15 @@
+compiler avec le flag -g
+lancer gdb a.out -tui
+layout src
+b main
+run
+s + ENTER pour avancer pas a pas
+
+Valgrind :
+
+compiler avec -g
+commande valgrind ./a.out
+Test des fuites ::
+ccw -fsanitize=address ft_strjoin.c
+
+valgrind  --leak-check=full --show-leak-kinds=all -s  ./a.out

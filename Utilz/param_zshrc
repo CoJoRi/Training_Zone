@@ -1,0 +1,37 @@
+alias ccw="cc -Wall -Wextra -Werror -g"
+alias gcw="gcc -Wall -Wextra -Werror -g"
+alias norm="norminette -R CheckForbiddenSourceHeader"
+alias gts="git status"
+alias gtrd="cdg && git add * && git commit -m \"commit randominete\" && git push && echo \"back randominette\""
+alias cdd="cd ~/Documents/"
+alias vix="vim -p */*"
+alias cdg="cd ~/Documents/Project42"
+alias rma="rm *.out"
+alias lsd="ls -l */* | awk '{print \$9}\' | tr -s '\n'"
+alias rma='find . -type f -name "*.out" -exec rm -v {} \;'
+alias rmh='find . -type f -name "*.gch" -exec rm -v {} \;'
+alias lock="ft_lock"
+alias updt="sudo apt update && sudo apt upgrade -y && echo \"update and upgrade completed\""
+# alias gtp="cdg && rma && git add * && git commit -m \"commit rapide\" && git push && echo \"commit regulier ok\""
+
+gtp() {
+    if [ -z "$1" ]; then
+        echo "Veuillez fournir un message de commit."
+        return 1
+    fi
+
+    cdg && rma
+
+    # Étape 1 : Ajouter les fichiers
+    git add *
+
+    # Étape 2 : Lister les fichiers ajoutés
+    echo "Fichiers ajoutés :"
+    git diff --cached --name-only
+    echo
+    echo "Modifiez les fichiers si nécessaire. Appuyez sur [Entrée] pour continuer ou [Ctrl+C] pour annuler."
+    read
+
+    # Étape 3 : Commit et push
+    git commit -m "$1" && git push && echo "Commit régulier ok"
+}

@@ -1,0 +1,54 @@
+NAME = libftprintf.a
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+CFILES = ft_printf.c handle_nbrs.c handle_strs.c
+OFILES = $(CFILES:.c=.o)
+
+CFLAGS = -Wall -Werror -Wextra
+
+$(NAME): $(LIBFT) $(OFILES) compiled
+	@cp $(LIBFT) $(NAME)
+	@ar -rc $(NAME) $(OFILES) $(LIBFT)
+
+%.o: %.c 
+	@cc -c $< -o $@
+
+compiled :
+	@echo "All $(NAME) files compiled.\n"
+
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_DIR)
+
+bonus: $(NAME)
+
+allc: $(NAME) clean
+
+all: $(NAME)
+
+clean:
+	@$(MAKE) -C $(LIBFT_DIR) clean
+	@rm -f $(OFILES) printf && echo "$(NAME) object files cleaned."
+
+fclean:
+	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@rm -f $(OFILES) $(NAME) printf && echo "$(NAME) cleaned.\n"
+
+re: fclean all
+
+rec: fclean allc
+
+rerun: rec
+	@cc $(CFILES) -L . -i -l:libftprintf.a
+
+rerunwithflags: rec
+	@cc $(CFLAGS) main.c -L . -l:libftprintf.a -o printf && ./printf
+
+rerunvalgrind: rec
+	@cc main.c -L . -l:libftprintf.a -o printf && valgrind --leak-check=full --show-leak-kinds=all ./printf
+
+rerunvalgrindwithflags: rec
+	@cc main.c -L . -l:libftprintf.a -o printf && valgrind --leak-check=full --show-leak-kinds=all ./printf
+
+norm:
+	@norminette | grep -E --color=always "Error" || echo "\e[32mnorminette is fine!\e[0m"
