@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zeph <zeph@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jrinaudo <jrinaudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 08:15:03 by zeph              #+#    #+#             */
-/*   Updated: 2025/01/27 10:08:18 by zeph             ###   ########.fr       */
+/*   Updated: 2025/01/30 16:12:21 by jrinaudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int ft_printf(const char *str, ... )
 	{
 		if (str[i] == '%' && is_form(str[i + 1]))
 		{
-			i ++;
+			i++;
 			if (str[i] == 's')
 				putstr(va_arg(args, char *), &len);
 			else if (str[i] == 'd')
@@ -78,6 +78,8 @@ int ft_printf(const char *str, ... )
 			else if (str[i] == 'x' || str[i] == 'X')
 				puthex(va_arg(args, unsigned int), &len);
 			else if (str[i] == '%')	
+				len += write(1, &str[i], 1);
+			else
 				len += write(1, &str[i], 1);
 		}
 		else
