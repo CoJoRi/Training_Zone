@@ -5,26 +5,26 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrinaudo <jrinaudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 20:33:59 by jrinaudo          #+#    #+#             */
-/*   Updated: 2025/01/30 20:52:19 by jrinaudo         ###   ########.fr       */
+/*   Created: 2025/01/30 16:15:27 by jrinaudo          #+#    #+#             */
+/*   Updated: 2025/01/30 20:28:29 by jrinaudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
+# define BUFFER_SIZE 1
 #endif
 
-#include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+//#include <sys/types.h>
+//#include <sys/stat.h>
+#include <stdlib.h>
 
-char	*ft_strdup(char * str)
+char *my_strcpy(char *str)
 {
-	int	i = 0;
+	int i = 0;
 	char *cpy = NULL;
 
-	if (!str)
-		return (NULL);
 	while (str[i])
 		i++;
 	cpy = malloc(i + 1);
@@ -37,19 +37,18 @@ char	*ft_strdup(char * str)
 		i++;
 	}
 	cpy[i] = '\0';
-	return (cpy);	
+	return (cpy);
 }
 
-
-char *get_next_line(int fd)
+char    *get_next_line(int  fd)
 {
-	static char	buff[BUFFER_SIZE + 1] = {0};
+	static char	buff[BUFFER_SIZE + 1];
+	char		line[100000] = {0};
+	int			index_line = 0;
 	static int	index_buff = 0;
 	static int	nbchar = 0;
-	int			index_line = 0;
-	char		line[1000000] = {0};
 
-	if (BUFFER_SIZE < 0 || fd < 0)
+	if (BUFFER_SIZE < 1 || fd < 0)
 		return (NULL);
 	while (1)
 	{
@@ -61,25 +60,28 @@ char *get_next_line(int fd)
 				break;
 		}
 		line[index_line++] = buff[index_buff++];
-		if (line[index_line -1] == '\n')
-			break;
+		if (line[index_line - 1] == '\n' || line[index_line -1] == '\0')
+			break ;
 	}
-	if (index_line == 0)
-		return (NULL);
-	return (ft_strdup(line));
-}
+		if (index_line == 0)
+			return (0);
+		return (my_strcpy(line));	
+	}
 
 /* #include <stdio.h>
 int main(void)
 {
-	char *line;
-	int fd = open("1", O_RDONLY);
+	int fd = open("2", O_RDONLY);
+	char *line = get_next_line(fd);
 
-	while ((line = get_next_line(fd)) != NULL)
+	while (line)
 	{
-		printf("%s", line);
-		free(line);
-		line = NULL;
+		if (line)
+		{
+			printf("%s", line);
+			free(line);			
+		}
+		line = get_next_line(fd);
 	}
-	close(fd);
+	return (0);
 } */
