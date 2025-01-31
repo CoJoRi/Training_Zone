@@ -100,7 +100,7 @@ unsigned char	reverse_bits2(unsigned char octet)
 	return (reversed);
 }
 
-unsigned char revbit(unsigned char octet)
+unsigned char swapbit(unsigned char octet)
 {
 	return((octet >> 4)|(octet << 4));
 }

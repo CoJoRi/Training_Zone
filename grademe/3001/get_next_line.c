@@ -6,7 +6,7 @@
 /*   By: jrinaudo <jrinaudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 20:33:59 by jrinaudo          #+#    #+#             */
-/*   Updated: 2025/01/30 22:34:33 by jrinaudo         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:17:31 by jrinaudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char *get_next_line(int fd)
 		if (line[index_line -1] == '\n')
 			break;
 	}
-	if (index_line == 0)
+	if (index_line == 0 || nbchar < 0)
 		return (NULL);
 	return (ft_strdup(line));
 }

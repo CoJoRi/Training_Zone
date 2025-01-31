@@ -6,7 +6,7 @@
 /*   By: jrinaudo <jrinaudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 08:15:03 by zeph              #+#    #+#             */
-/*   Updated: 2025/01/30 16:12:21 by jrinaudo         ###   ########.fr       */
+/*   Updated: 2025/01/31 12:36:45 by jrinaudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ int ft_printf(const char *str, ... )
 				putnbr(va_arg(args, int), &len);
 			else if (str[i] == 'x' || str[i] == 'X')
 				puthex(va_arg(args, unsigned int), &len);
-			else if (str[i] == '%')	
-				len += write(1, &str[i], 1);
 			else
 				len += write(1, &str[i], 1);
 		}
